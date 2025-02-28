@@ -7,9 +7,11 @@
 * Basic container for encapsulated ASCII manipulation  *
 *******************************************************/
 
+#include <stdexcept>
 #include <utility>
 
 #include "vals.h++"
+#include "bio.h++"
 
 namespace pers
 {
@@ -54,6 +56,21 @@ namespace pers
     ~PCMC (void)
     {
       delete[] mat;
+    }
+
+    char get_char (al::S2D pos)
+    {
+      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+      return mat[pos.first * size.second + pos.second];
+    }
+
+    void output (void)
+    {
+      for (size_t i = 0; i < size.first; i ++)
+        for (size_t j = 0; i < size.second; j ++)
+          bio.out(get_char({i, j}));
+
+      return;
     }
 
     // TODO: WIP
