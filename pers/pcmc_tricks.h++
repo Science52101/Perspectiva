@@ -18,15 +18,18 @@ namespace pers
 
   class PCMCTricks
   {
+    /* Utility PCMC Wrapper Class */
+
   protected:
 
-    PCMC& pcmc;
+    PCMC* pcmc;
 
   public:
 
     PCMCTricks (PCMC& pcmc)
-    : pcmc(pcmc)
+    : pcmc(&pcmc)
     {}
+
 
     void write (const ta::S2D& pos, const char* str, const bool& wrap = false)
     {
@@ -41,14 +44,43 @@ namespace pers
         case '\n': break;
 
         default:
-          pcmc.set_char(npos, *str, true);
+          pcmc->set_char(npos, *str, true);
         }
 
-        if (*str == '\n' || ++ npos.second >= pcmc.get_size().second && wrap)
+        if (*str == '\n' || ++ npos.second >= pcmc->get_size().second && wrap)
         {
           npos.second = pos.second;
           npos.first ++;
         }
+      }
+
+      return;
+    }
+
+    void write_del (const ta::S2D& pos, const char* str, const size_t time = 500, const bool& wrap = false)
+    {
+      /* String/Text Plotting Function With Per Character Delay And Output */
+
+      ta::S2D npos = pos;
+
+      for (; *str != '\0'; str ++)
+      {
+        switch (*str)
+        {
+        case '\n': break;
+
+        default:
+          pcmc->set_char(npos, *str, true);
+        }
+
+        if (*str == '\n' || ++ npos.second >= pcmc->get_size().second && wrap)
+        {
+          npos.second = pos.second;
+          npos.first ++;
+        }
+
+        pcmc->output();
+        anim::p_wait(time);
       }
 
       return;
@@ -65,20 +97,20 @@ namespace pers
         if (force) return;
         else throw std::out_of_range("Right-bottom point is not before Left-top point. (box)");
 
-      if (!pcmc.in_range(lt) || !pcmc.in_range(rb))
+      if (!pcmc->in_range(lt) || !pcmc->in_range(rb))
         if (force);
         else throw std::out_of_range("Point(s) out of range of PCMC. (box)");
 
       for (d = 0; d <= rb.first - lt.first; d ++)
       {
-        pcmc.set_char({lt.first + d, lt.second}, c, force);
-        pcmc.set_char({lt.first + d, rb.second}, c, force);
+        pcmc->set_char({lt.first + d, lt.second}, c, force);
+        pcmc->set_char({lt.first + d, rb.second}, c, force);
       }
 
       for (d = 0; d <= rb.second - lt.second; d ++)
       {
-        pcmc.set_char({lt.first, lt.second + d}, c, force);
-        pcmc.set_char({rb.first, lt.second + d}, c, force);
+        pcmc->set_char({lt.first, lt.second + d}, c, force);
+        pcmc->set_char({rb.first, lt.second + d}, c, force);
       }     
 
       return;
@@ -92,13 +124,13 @@ namespace pers
         if (force) return;
         else throw std::out_of_range("Right-bottom point is not before Left-top point. (box)");
 
-      if (!pcmc.in_range(lt) || !pcmc.in_range(rb))
+      if (!pcmc->in_range(lt) || !pcmc->in_range(rb))
         if (force);
         else throw std::out_of_range("Point(s) out of range of PCMC. (box)");
 
       for (size_t i = 0; i <= rb.first - lt.first; i ++)
         for (size_t j = 0; j <= rb.second - lt.second; j ++)
-          pcmc.set_char({lt.first + i, lt.second + j}, c, force);
+          pcmc->set_char({lt.first + i, lt.second + j}, c, force);
 
       return;
     }

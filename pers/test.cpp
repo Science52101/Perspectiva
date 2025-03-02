@@ -20,6 +20,8 @@ signed main ()
   tricks.box_empty({0, 0}, {canvas.get_size().first - 1, canvas.get_size().second - 1}, '~');
   tricks.box_empty({5, 5}, {canvas.get_size().first - 6, canvas.get_size().second - 6}, '.');
   tricks.box_fill({10, 10}, {canvas.get_size().first - 11, canvas.get_size().second - 11}, '!');
+  
+  tricks.write_del({canvas.get_size().first - 10, canvas.get_size().second - 15}, "Hello, World! Lorem Ipsum Dolor Sit Amet", 500, true);
 
   canvas.set_as_default();
   
@@ -47,11 +49,9 @@ signed main ()
    
     canvas.char_at({x, y}) = 'a' + rand() % 26;
 
-    tricks.write({canvas.get_size().first - 10, canvas.get_size().second - 15}, "Hello, World! Lorem Ipsum Dolor Sit Amet", true);
-
     canvas.output();
 
-    anim::wait(100);
+    anim::p_wait(100);
   }
 
 

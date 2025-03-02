@@ -28,11 +28,14 @@ namespace pers
 
     ta::S2D term_size;
 
+    size_t p_mult;
+
   public:
 
     Vals ()
     {
       set_term_size();
+      set_p_mult();
     }
 
     Vals (const ta::S2D& term_size)
@@ -61,7 +64,26 @@ namespace pers
 
     ta::S2D get_term_size (void)
     {
+      /* Terminal Size Getter */
+      
       return term_size;
+    }
+
+    
+    size_t get_p_mult (void) 
+    {
+      /* Processor Operation Multiplier Getter */
+
+      return p_mult;
+    }
+
+    void set_p_mult (const size_t& mult = 1 << 0x10)
+    {
+      /* Processor Operation Multiplier Setter */
+
+      p_mult = mult;
+
+      return;
     }
 
   } vals;

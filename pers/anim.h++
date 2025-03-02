@@ -9,16 +9,19 @@
 
 #include <iostream>
 
+#include "vals.h++"
+
 namespace pers
 {
   namespace anim
   {
 
-    void wait (size_t time = 1000)
+    void p_wait (size_t n = 1000)
     {
-      time *= 100000;
-      size_t cnt = 0;
-      for (; cnt < time ; cnt ++) std::cout.flush();
+      /* Wait N Process Operations */
+
+      n *= vals.get_p_mult();
+      for (size_t i = 0; i < n ; i ++) std::cout.flush();
     }
 
     void write (const char* str, size_t time = 500)
@@ -26,7 +29,7 @@ namespace pers
       for (const char* c = str; *c != '\0'; c ++)
       {
         std::cout << *c;
-        wait(time);
+        p_wait(time);
       }
     }
 
