@@ -1,14 +1,46 @@
+#include <cstdlib>
 
 #include "bio.h++"
-#include "vals.h++"
+#include "anim.h++"
+#include "pcmc.h++"
 
 using namespace pers;
 
 signed main ()
 {
-  vals.set_term_size({20, 20});
+  srand(4398024);
+  PCMC canvas;
 
-  bio.outln(vals.get_term_size().first);
+  size_t x = 0, y = 0;
+  
+  while (true)
+  {
+    canvas.resize(vals.set_term_size());
+
+    switch (rand() % 4)
+    {
+    case 0:
+      if (x != 0) x --;
+      break;
+    case 1:
+      if (y != 0) y --;
+      break;
+    case 2:
+      if (x + 1 < canvas.get_size().first) x ++;
+      break;
+    case 3:
+      if (x + 1 < canvas.get_size().second) y ++;
+      break;
+    }
+
+    canvas.fill();
+    canvas.char_at({x, y}) = '*';
+
+    canvas.output();
+
+    anim::wait(100);
+  }
+
 
   return 0;
 }

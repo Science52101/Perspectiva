@@ -17,23 +17,27 @@ namespace pers
 {
   class PCMC
   {
-  private:
+  protected:
     
     char* mat;
-    al::S2D size;
+    ta::S2D size;
 
   public:
-  
-    PCMC (al::S2D size = vals.get_term_size())
-    : size(size)
-    {}
 
-    PCMC (al::S2D size, const char* const mat)
+    PCMC (ta::S2D size = vals.get_term_size())
     : size(size)
     {
       size_t n = size.first * size.second;
 
-      mat = new char [n];
+      this->mat = new char [n];
+    }
+
+    PCMC (const ta::S2D& size, const char* const mat)
+    : size(size)
+    {
+      size_t n = size.first * size.second;
+
+      this->mat = new char [n];
       std::copy(mat, mat + n, this->mat);
     }
 
@@ -58,20 +62,98 @@ namespace pers
       delete[] mat;
     }
 
-    char get_char (al::S2D pos)
-    {
-      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
-      return mat[pos.first * size.second + pos.second];
-    }
 
-    void output (void)
+    void set_size (const ta::S2D& nsiz = vals.get_term_size())
     {
-      for (size_t i = 0; i < size.first; i ++)
-        for (size_t j = 0; i < size.second; j ++)
-          bio.out(get_char({i, j}));
+      /* Matriz Size Setter */
+
+      size_t n = nsiz.first * nsiz.second;
+
+      char* nmat = new char [n];
+
+      for (size_t i = 0; i < nsiz.first; i ++)
+        for (size_t j = 0; j < nsiz.second; j ++)
+          if (i < size.first && j < size.second)
+            nmat[i * nsiz.second + j] = get_char({i, j});
+
+      size = nsiz;
+
+      char* tmp = mat;
+      mat = nmat;
+      delete[] tmp;
 
       return;
     }
+
+    template <class ... Ts>
+    void resize (Ts ... args)
+    { return set_size(args ...); }
+
+    ta::S2D get_size ()
+    {
+      /* Matriz Size Getter */
+
+      return size;
+    }
+
+
+    char get_char (const ta::S2D& pos)
+    {
+      /* Specific Char Getter */
+
+      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+
+      return mat[pos.first * size.second + pos.second];
+    }
+
+    void set_char (const ta::S2D& pos, const char& c)
+    {
+      /* Specific Char Setter */
+
+      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+
+      mat[pos.first * size.second + pos.second] = c;
+
+      return;
+    }
+
+    char& char_at (const ta::S2D& pos)
+    {
+      /* Specific Char Reference Getter */
+
+      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+
+      return mat[pos.first * size.second + pos.second];
+    }
+
+    void fill (const char& c = ' ')
+    {
+      /* Fill Matrix With Char */
+
+      for (size_t i = 0; i < size.first; i ++)
+        for (size_t j = 0; j < size.second; j ++)
+          set_char({i, j}, c);
+
+      return;
+    }
+
+
+    void output (const bool& clear = true)
+    {
+      /* Output Matrix */
+
+      if (clear) bio.pout("\033[2J\033[H");
+
+      for (size_t i = 0; i < size.first; i ++)
+      {
+        for (size_t j = 0; j < size.second; j ++)
+          bio.pout(get_char({i, j}));
+        bio.outln();
+      }
+
+      return;
+    }
+
 
     // TODO: WIP
   };

@@ -16,7 +16,7 @@ namespace pers
 
     void wait (size_t time = 1000)
     {
-      time *= 10000;
+      time *= 100000;
       size_t cnt = 0;
       for (; cnt < time ; cnt ++) std::cout.flush();
     }

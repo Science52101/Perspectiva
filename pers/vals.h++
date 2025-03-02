@@ -10,6 +10,9 @@
 #include <cstddef>
 #include <utility>
 
+#include <unistd.h>
+#include <sys/ioctl.h>
+
 namespace pers
 {
   namespace ta
@@ -19,16 +22,41 @@ namespace pers
 
   class Vals
   {
+    /* Perspectiva Values Class */
+
   private:
 
-    ta::S2D term_size = {0, 0};
+    ta::S2D term_size;
 
   public:
 
-    void set_term_size (const ta::S2D& size)
+    Vals ()
     {
+      set_term_size();
+    }
+
+    Vals (const ta::S2D& term_size)
+    : term_size(term_size)
+    {}
+
+    ta::S2D set_term_size ()
+    {
+      /* Automatic Terminal Size Setter */
+
+      struct winsize ws;
+      ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
+      term_size = {ws.ws_row - 1, ws.ws_col};
+
+      return term_size;
+    }
+
+    ta::S2D set_term_size (const ta::S2D& size)
+    {
+      /* Terminal Size Setter */
+
       term_size = size;
-      return;
+
+      return term_size;
     }
 
     ta::S2D get_term_size (void)
