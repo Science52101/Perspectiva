@@ -97,20 +97,30 @@ namespace pers
     }
 
 
-    char get_char (const ta::S2D& pos)
+    bool in_range (const ta::S2D& pos)
+    {
+      return pos.first < size.first && pos.second < size.second;
+    }
+
+
+    char get_char (const ta::S2D& pos, const bool& force = false, const char& force_char = '\0')
     {
       /* Specific Char Getter */
 
-      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+      if (!in_range(pos))
+        if (force) return force_char;
+        else throw std::out_of_range("Coordinates out of range. (get_char)");
 
       return mat[pos.first * size.second + pos.second];
     }
 
-    void set_char (const ta::S2D& pos, const char& c)
+    void set_char (const ta::S2D& pos, const char& c, const bool& force = false)
     {
       /* Specific Char Setter */
 
-      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+      if (!in_range(pos))
+        if (force) return;
+        else throw std::out_of_range("Coordinates out of range. (set_char)");
 
       mat[pos.first * size.second + pos.second] = c;
 
@@ -121,7 +131,7 @@ namespace pers
     {
       /* Specific Char Reference Getter */
 
-      if (pos.first >= size.first || pos.second >= size.second) throw std::out_of_range("Coordinates out of range.");
+      if (!in_range(pos)) throw std::out_of_range("Coordinates out of range. (char_at)");
 
       return mat[pos.first * size.second + pos.second];
     }
