@@ -19,6 +19,7 @@ namespace pers
   {
   protected:
     
+    char* dmat;
     char* mat;
     ta::S2D size;
 
@@ -29,6 +30,7 @@ namespace pers
     {
       size_t n = size.first * size.second;
 
+      dmat = new char [n];
       this->mat = new char [n];
     }
 
@@ -37,6 +39,7 @@ namespace pers
     {
       size_t n = size.first * size.second;
 
+      dmat = new char [n];
       this->mat = new char [n];
       std::copy(mat, mat + n, this->mat);
     }
@@ -46,6 +49,8 @@ namespace pers
     {
       size_t n = size.first * size.second;
 
+      dmat = new char [n];
+      std::copy(r.dmat, r.dmat + n, dmat);
       mat = new char [n];
       std::copy(r.mat, r.mat + n, mat);
     }
@@ -54,12 +59,14 @@ namespace pers
     : size(r.size)
     {
       r.size = {0, 0};
+      dmat = r.dmat;
       mat = r.mat;
     }
 
     ~PCMC (void)
     {
       delete[] mat;
+      delete[] dmat;
     }
 
 
@@ -67,19 +74,35 @@ namespace pers
     {
       /* Matriz Size Setter */
 
+      if (size == nsiz) return;
+
       size_t n = nsiz.first * nsiz.second;
 
-      char* nmat = new char [n];
+      char* nmat;
+      char* tmp;
+
+      nmat = new char [n];
 
       for (size_t i = 0; i < nsiz.first; i ++)
         for (size_t j = 0; j < nsiz.second; j ++)
           if (i < size.first && j < size.second)
             nmat[i * nsiz.second + j] = get_char({i, j});
 
+      tmp = mat;
+      mat = nmat;
+      delete[] tmp;
+
+      nmat = new char [n];
+
+      for (size_t i = 0; i < nsiz.first; i ++)
+        for (size_t j = 0; j < nsiz.second; j ++)
+          if (i < size.first && j < size.second)
+            nmat[i * nsiz.second + j] = dmat[i * size.second + j];
+
       size = nsiz;
 
-      char* tmp = mat;
-      mat = nmat;
+      tmp = dmat;
+      dmat = nmat;
       delete[] tmp;
 
       return;
@@ -164,8 +187,19 @@ namespace pers
       return;
     }
 
+    void set_default (void)
+    {
+      std::copy(mat, mat + size.first * size.second, dmat);
 
-    // TODO: WIP
+      return;
+    }
+
+    void reset_default (void)
+    {
+      std::copy(dmat, dmat + size.first * size.second, mat);
+
+      return;
+    }
   };
 }
 
