@@ -21,7 +21,7 @@ signed main ()
   tricks.box_empty({5, 5}, {canvas.get_size().first - 6, canvas.get_size().second - 6}, '.');
   tricks.box_fill({10, 10}, {canvas.get_size().first - 11, canvas.get_size().second - 11}, '!');
 
-  canvas.set_default();
+  canvas.set_as_default();
   
   while (true)
   {
@@ -43,7 +43,7 @@ signed main ()
       break;
     }
 
-    canvas.reset_default();
+    canvas.make_default();
    
     canvas.char_at({x, y}) = 'a' + rand() % 26;
 

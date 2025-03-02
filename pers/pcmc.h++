@@ -187,14 +187,14 @@ namespace pers
       return;
     }
 
-    void set_default (void)
+    void set_as_default (void)
     {
       std::copy(mat, mat + size.first * size.second, dmat);
 
       return;
     }
 
-    void reset_default (void)
+    void make_default (void)
     {
       std::copy(dmat, dmat + size.first * size.second, mat);
 
