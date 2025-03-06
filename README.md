@@ -1,4 +1,7 @@
-# Perspectiva
+<h1 align='center'>
+<img src="https://github.com/akai-keisanki/Perspectiva/blob/All/docs/PersLogo.png?raw=true" alt="Pers. logo" width="128" heigth="128"/> <br>
+Perspectiva
+</h1>
 
 Perspectiva is a POSIX-only C++ header library for terminal ASCII[^1] and CUI manipulation from [Science52101](https://science52101.github.io).
 
