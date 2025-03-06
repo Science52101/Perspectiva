@@ -1,5 +1,5 @@
 <h1 align='center'>
-<img src="https://github.com/akai-keisanki/Perspectiva/blob/All/docs/PersLogo.png?raw=true" alt="Pers. logo" width="128" heigth="128"/> <br>
+<img src="https://raw.githubusercontent.com/akai-keisanki/Perspectiva/refs/heads/All/doc/PersLogo.png" alt="Pers. logo" width="128" heigth="128"/> <br>
 Perspectiva
 </h1>
 
