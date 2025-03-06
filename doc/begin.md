@@ -1,7 +1,7 @@
 # The Perspectiva Documentation
 ## Begin
 
-> [!INFO]
+> [!NOTE]
 > This documentation is a work in progress.
 > Please wait for the complete version for reliable information.
 
