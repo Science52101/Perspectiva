@@ -1,4 +1,4 @@
 # The Perspectiva Documentation
 ## `namespace pers`
 
-`namespace pers` contains all additions of Perspectiva for all headers.
+The `namespace pers` contains all additions of Perspectiva for all headers.
