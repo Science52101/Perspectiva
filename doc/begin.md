@@ -5,7 +5,11 @@
 > This documentation is a work in progress.
 > Please wait for the complete version for reliable information.
 
-Check each header:
+Please check the basic concepts:
+
+- [`namespace pers`](./namespacePers.md)
+
+You can check each header here:
 
 - [bio.hpp](./bioHpp.md)
 - [anim.hpp](./animHpp.md)
