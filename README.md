@@ -2,7 +2,7 @@
 <img src="./doc/PersLogo.png" alt="Pers. logo" width="128" heigth="128"/> <br>
 Perspectiva
 </h1>
-v.0.01.000
+`Pers v.0.01.001`
 
 Perspectiva is a POSIX-only C++ header library for terminal ASCII[^1] and CUI manipulation from [Science52101](https://science52101.github.io).
 

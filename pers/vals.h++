@@ -15,6 +15,8 @@
 
 namespace pers
 {
+  #define PERSPECTIVA_VERSION "v.0.01.001"
+  
   namespace ta
   {
     using S2D = std::pair<size_t, size_t>;
