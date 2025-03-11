@@ -12,4 +12,4 @@ For more information about the library, it is recommended check [the documentati
 > [!WARNING]
 > This project is a work in progress! Most of it may be incomplete, unsafe or broken!
 
-[^1] Including animations and plotting. 
+[^1]: Including animations and plotting. 

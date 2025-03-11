@@ -20,7 +20,7 @@ This header contains the following public elements whose function will be explai
         - `template <class ... T> void in (T& ...)`
     - `BIO bio`
 
-[^1] This page does not explain [`namespace pers`](./namespacePers.md).
+[^1]: This page does not explain [`namespace pers`](./namespacePers.md).
 
 ### `class BIO`
 
