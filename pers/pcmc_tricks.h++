@@ -8,9 +8,11 @@
 **************************************************************/
 
 #include <cstddef>
+#include <cmath>
 #include <stdexcept>
 
 #include "vals.h++"
+#include "anim.h++"
 #include "pcmc.h++"
 
 namespace pers
@@ -57,7 +59,7 @@ namespace pers
       return;
     }
 
-    void write_del (const ta::S2D& pos, const char* str, const size_t time = 500, const bool& wrap = false)
+    void write_del (const ta::S2D& pos, const char* str, const size_t time = 100, const bool& wrap = false)
     {
       /* String/Text Plotting Function With Per Character Delay And Output */
 
@@ -80,16 +82,19 @@ namespace pers
         }
 
         pcmc->output();
-        anim::p_wait(time);
+        anim::t_wait(time);
       }
 
       return;
     }
 
 
-    void box_empty (const ta::S2D& lt, const ta::S2D& rb, const char& c = '#', const bool& force = false)
+    void box_empty (ta::S2D lt, ta::S2D rb, const char& c = '#', const bool& force = false)
     {
       /* Empty Box Plotting Function */
+
+      min_max(lt.first, rb.first);
+      min_max(lt.second, rb.second);
 
       size_t d;
 
@@ -116,9 +121,12 @@ namespace pers
       return;
     }
 
-    void box_fill (const ta::S2D& lt, const ta::S2D& rb, const char& c = '#', const bool& force = false)
+    void box_fill (ta::S2D lt, ta::S2D rb, const char& c = '#', const bool& force = false)
     {
       /* Filled Box Plotting Function */
+
+      min_max(lt.first, rb.first);
+      min_max(lt.second, rb.second);
 
       if (lt.first > rb.first || lt.second > rb.second)
         if (force) return;
@@ -131,6 +139,25 @@ namespace pers
       for (size_t i = 0; i <= rb.first - lt.first; i ++)
         for (size_t j = 0; j <= rb.second - lt.second; j ++)
           pcmc->set_char({lt.first + i, lt.second + j}, c, force);
+
+      return;
+    }
+
+    void trace_line (ta::S2D lt, ta::S2D rb, const char& c = '#', const bool& force = false)
+    {
+      /* Single Line Plotting Function */
+
+      min_max(lt, rb);
+
+      size_t f = rb.first - lt.first + 1;
+      double sof = ((double) rb.second - lt.second)/f;
+      bio.err(f, (double) rb.second - lt.second, sof);
+
+      size_t si = lt.second;
+
+      for (size_t fi = 1; fi <= f; fi ++) // TODO : CORRECT LOOK CHECKS FOR NEGATIVE SOF
+        for (; si <= sof*fi + lt.second; si += abs(sof)/sof)
+          pcmc->set_char({lt.first - 1 + fi, si}, c, force);
 
       return;
     }

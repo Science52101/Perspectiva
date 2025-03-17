@@ -9,19 +9,17 @@ using namespace pers;
 
 signed main ()
 {
-  srand(4398024);
+  srand(634633245524);
   PCMC canvas;
   PCMCTricks tricks (canvas);
 
-  size_t x = 0, y = 0;
+  size_t x = canvas.get_size().first/2, y = canvas.get_size().second/2;
  
   canvas.fill();
 
-  tricks.box_empty({0, 0}, {canvas.get_size().first - 1, canvas.get_size().second - 1}, '~');
   tricks.box_empty({5, 5}, {canvas.get_size().first - 6, canvas.get_size().second - 6}, '.');
-  tricks.box_fill({10, 10}, {canvas.get_size().first - 11, canvas.get_size().second - 11}, '!');
   
-  tricks.write_del({canvas.get_size().first - 10, canvas.get_size().second - 15}, "Hello, World! Lorem Ipsum Dolor Sit Amet", 500, true);
+  tricks.write_del({canvas.get_size().first - 10, canvas.get_size().second - 15}, "Hello, World! Lorem Ipsum Dolor Sit Amet", 5, true);
 
   canvas.set_as_default();
   
@@ -46,12 +44,14 @@ signed main ()
     }
 
     canvas.make_default();
+
+    tricks.trace_line({canvas.get_size().first/2, canvas.get_size().second/2}, {x, y}, '!');
    
     canvas.char_at({x, y}) = 'a' + rand() % 26;
 
     canvas.output();
 
-    anim::p_wait(100);
+    anim::t_wait(100);
   }
 
 

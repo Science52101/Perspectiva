@@ -15,7 +15,21 @@
 
 namespace pers
 {
-  #define PERSPECTIVA_VERSION "v.0.01.001"
+  #define PERSPECTIVA_VERSION "v.0.01.002"
+  
+  template <class T>
+  void min_max (T& a, T& b)
+  {
+    /* Useful Two-Value Ordering Function */
+
+    if (a < b) return;
+
+    T c = a;
+    a = b;
+    b = c;
+
+    return;
+  }
   
   namespace ta
   {

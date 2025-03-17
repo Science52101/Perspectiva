@@ -7,6 +7,7 @@
 *        Basic IO functions        *
 ***********************************/
 
+#include <cassert>
 #include <iostream>
 
 namespace pers
@@ -64,57 +65,63 @@ namespace pers
     }
 
 
-    template <class ... T>
-    void out (const T& ... x)
+    void out (const auto& ... x)
     {
       /* Separated Standard Output */
-      ((*outs << x << o_separator), ...);
+      (assert(*outs << x << o_separator), ...);
     }
 
-    template <class ... T>
-    void pout (const T& ... x)
+    void pout (const auto& ... x)
     {
       /* Pure Standard Output */
-      ((*outs << x), ...);
+      (assert(*outs << x), ...);
     }
 
-    template <class ... T>
-    void outln (const T& ... x)
+    void outln (const auto& ... x)
     {
       /* Separated Standard Output Line */
-      ((*outs << x << o_separator), ...);
+      (assert(*outs << x << o_separator), ...);
       *outs << '\n';
     }
 
+    void flush_out (void)
+    {
+      /* Output Flushing */
+      outs->flush();
+    }
 
-    template <class ... t>
-    void err (const t& ... x)
+
+
+    void err (const auto& ... x)
     {
       /* Separated Error Output */
-      ((*errs << x << o_separator), ...);
+      (assert(*errs << x << o_separator), ...);
     }
 
-    template <class ... t>
-    void perr (const t& ... x)
+    void perr (const auto& ... x)
     {
       /* Pure Error Output */
-      ((*errs << x << o_separator), ...);
+      (assert(*errs << x << o_separator), ...);
     }
 
-    template <class ... T>
-    void errln (const T& ... x)
+    void errln (const auto& ... x)
     {
       /* Separated Error Output Line */
-      ((*errs << x << o_separator), ...);
+      (assert(*errs << x << o_separator), ...);
       *errs << '\n';
     }
 
-
-    template <class ... T>
-    void in (T& ... x)
+    void flush_err (void)
     {
-      /* Standard Input */
-      ((*ins >> x), ...);
+      /* Error Flushing */
+      errs->flush();
+    }
+
+
+    void in (auto& ... x)
+    {
+      /* Simple Input */
+      (assert(*ins >> x), ...);
     }
 
   } bio;
