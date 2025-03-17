@@ -11,13 +11,13 @@ This header contains the following public elements whose function will be explai
         - `set_error_stream (std::ostream&)`
         - `void set_o_sep (const char*)`
         - `const char* get_o_sep (void)`
-        - `template <class ... T> void out (const T& ...)`
-        - `template <class ... T> void pout (const T& ...)`
-        - `template <class ... T> void outln (const T& ...)`
-        - `template <class ... t> void err (const t& ...)`
-        - `template <class ... t> void perr (const t& ...)`
-        - `template <class ... T> void errln (const T& ...)`
-        - `template <class ... T> void in (T& ...)`
+        - `void out (const auto& ...)`
+        - `void pout (const auto& ...)`
+        - `void outln (const auto& ...)`
+        - `void err (const auto& ...)`
+        - `void perr (const auto& ...)`
+        - `void errln (const auto& ...)`
+        - `void in (auto& ...)`
     - `BIO bio`
 
 [^1]: This page does not explain [`namespace pers`](./namespacePers.md).
