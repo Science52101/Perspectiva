@@ -32,7 +32,8 @@
 *.app
 
 # Test files
-test*
+test.*
+*.test.*
 
 # Git Ignore
 !.gitignore
