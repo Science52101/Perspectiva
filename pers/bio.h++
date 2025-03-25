@@ -137,6 +137,7 @@ namespace pers
     {
       /* Error Flushing */
       errs->flush();
+      return;
     }
 
 
