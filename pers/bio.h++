@@ -22,31 +22,32 @@ namespace pers
     std::ostream* outs;
     std::ostream* errs;
     const char* o_separator;
+    const char* o_l_separator;
 
   public:
 
-    BIO (std::istream& ins = std::cin, std::ostream& outs = std::cout, std::ostream& errs = std::cerr, const char* o_separator = "\t")
-    : ins(&ins), outs(&outs), errs(&errs), o_separator(o_separator)
+    BIO (std::istream& ins = std::cin, std::ostream& outs = std::cout, std::ostream& errs = std::cerr, const char* o_separator = "\t", const char* o_l_separator = "\n")
+    : ins(&ins), outs(&outs), errs(&errs), o_separator(o_separator), o_l_separator(o_l_separator)
     {}
 
     void set_input_stream (std::istream& s)
     {
+      /* Input Stream Setter */
       ins = &s;
-
       return;
     }
 
     void set_output_stream (std::ostream& s)
     {
+      /* Output Stream Setter */
       outs = &s;
-
       return;
     }
 
     void set_error_stream (std::ostream& s)
     {
+      /* Error Stream Setter */
       errs = &s;
-
       return;
     }
 
@@ -69,25 +70,29 @@ namespace pers
     {
       /* Separated Standard Output */
       (assert(*outs << x << o_separator), ...);
+      return;
     }
 
     void pout (const auto& ... x)
     {
       /* Pure Standard Output */
       (assert(*outs << x), ...);
+      return;
     }
 
     void outln (const auto& ... x)
     {
       /* Separated Standard Output Line */
       (assert(*outs << x << o_separator), ...);
-      *outs << '\n';
+      *outs << o_l_separator;
+      return;
     }
 
     void flush_out (void)
     {
       /* Output Flushing */
       outs->flush();
+      return;
     }
 
 
@@ -96,19 +101,22 @@ namespace pers
     {
       /* Separated Error Output */
       (assert(*errs << x << o_separator), ...);
+      return;
     }
 
     void perr (const auto& ... x)
     {
       /* Pure Error Output */
       (assert(*errs << x << o_separator), ...);
+      return;
     }
 
     void errln (const auto& ... x)
     {
       /* Separated Error Output Line */
       (assert(*errs << x << o_separator), ...);
-      *errs << '\n';
+      *errs << o_l_separator;
+      return;
     }
 
     void flush_err (void)
@@ -122,6 +130,7 @@ namespace pers
     {
       /* Simple Input */
       (assert(*ins >> x), ...);
+      return;
     }
 
   } bio;
