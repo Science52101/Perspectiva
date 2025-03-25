@@ -31,5 +31,9 @@
 *.out
 *.app
 
+# Test files
+test.*
+*.test.*
+
 # Git Ignore
 !.gitignore
