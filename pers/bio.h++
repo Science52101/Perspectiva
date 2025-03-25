@@ -66,6 +66,20 @@ namespace pers
     }
 
 
+    void set_o_l_sep (const char* separator)
+    {
+      /* Output Line Separator Setter */
+      o_l_separator = separator;
+      return;
+    }
+
+    const char* get_o_l_sep (void)
+    {
+      /* Output Line Separator Getter */
+      return o_l_separator;
+    }
+
+
     void out (const auto& ... x)
     {
       /* Separated Standard Output */
