@@ -8,6 +8,7 @@
 **************************************************************/
 
 #include <cstddef>
+#include <cstdint>
 #include <cmath>
 #include <stdexcept>
 
@@ -93,8 +94,8 @@ namespace pers
     {
       /* Empty Box Plotting Function */
 
-      min_max(lt.first, rb.first);
-      min_max(lt.second, rb.second);
+      if (rb.first < lt.first) std::swap(lt.first, rb.first);
+      if (rb.second < lt.second) std::swap(lt.second, rb.second);
 
       size_t d;
 
@@ -125,8 +126,8 @@ namespace pers
     {
       /* Filled Box Plotting Function */
 
-      min_max(lt.first, rb.first);
-      min_max(lt.second, rb.second);
+      if (rb.first < lt.first) std::swap(lt.first, rb.first);
+      if (rb.second < lt.second) std::swap(lt.second, rb.second);
 
       if (lt.first > rb.first || lt.second > rb.second)
         if (force) return;
@@ -147,17 +148,54 @@ namespace pers
     {
       /* Single Line Plotting Function */
 
-      min_max(lt, rb);
+      // TODO: You know it must be Bresenham, even though you hate it
 
-      size_t f = rb.first - lt.first + 1;
-      double sof = ((double) rb.second - lt.second)/f;
-      bio.err(f, (double) rb.second - lt.second, sof);
+      const size_t dx = abs(rb.first - lt.first),
+                   dy = abs(rb.second - lt.second);
+        
+      const int8_t sx = rb.first > lt.first ? 1 : -1,
+                   sy = rb.second > lt.second ? 1 : -1;
 
-      size_t si = lt.second;
+      bio.errln(dx, dy);
+      bio.errln((int)sx, (int)sy);
 
-      for (size_t fi = 1; fi <= f; fi ++) // TODO : CORRECT LOOK CHECKS FOR NEGATIVE SOF
-        for (; si <= sof*fi + lt.second; si += abs(sof)/sof)
-          pcmc->set_char({lt.first - 1 + fi, si}, c, force);
+
+      if (dx == 0)
+      {
+        if (rb.second < lt.second) std::swap(lt.second, rb.second);
+        for (size_t i = lt.second; i <= rb.second; i ++)
+          pcmc->set_char({lt.first, i}, c, force);
+        return;
+      }
+
+      if (dy == 0)
+      {
+        if (rb.first < lt.first) std::swap(lt.first, rb.first);
+        for (size_t i = lt.first; i <= rb.first; i ++)
+          pcmc->set_char({i, lt.second}, c, force);
+        return;
+      }
+        
+
+      const double bsy = ((double) dy / (double) dx) * (double) sy;
+
+      size_t xi = lt.first;
+      size_t yi = lt.second;
+
+      double my = lt.second;
+
+      for (
+          ; sx > 0 ? xi <= rb.first : xi >= rb.first
+          ; xi += sx
+          )
+      {
+        my += bsy;
+        for (
+            ; sy > 0 ? yi <= my : yi >= my
+            ; yi += sy
+            )
+          pcmc->set_char({xi, yi}, c, force);
+      }
 
       return;
     }
