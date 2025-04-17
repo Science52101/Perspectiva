@@ -80,21 +80,24 @@ namespace pers
     }
 
 
-    void out (const auto& ... x)
+    template <class ... Ts>
+    void out (const Ts& ... x)
     {
       /* Separated Standard Output */
       (assert(*outs << x << o_separator), ...);
       return;
     }
 
-    void pout (const auto& ... x)
+    template <class ... Ts>
+    void pout (const Ts& ... x)
     {
       /* Pure Standard Output */
       (assert(*outs << x), ...);
       return;
     }
 
-    void outln (const auto& ... x)
+    template <class ... Ts>
+    void outln (const T& ... x)
     {
       /* Separated Standard Output Line */
       (assert(*outs << x << o_separator), ...);
@@ -110,22 +113,24 @@ namespace pers
     }
 
 
-
-    void err (const auto& ... x)
+    template <class ... Ts>
+    void err (const Ts& ... x)
     {
       /* Separated Error Output */
       (assert(*errs << x << o_separator), ...);
       return;
     }
 
-    void perr (const auto& ... x)
+    template <class... Ts>
+    void perr (const Ts& ... x)
     {
       /* Pure Error Output */
       (assert(*errs << x << o_separator), ...);
       return;
     }
 
-    void errln (const auto& ... x)
+    template <class ... Ts>
+    void errln (const Ts& ... x)
     {
       /* Separated Error Output Line */
       (assert(*errs << x << o_separator), ...);
@@ -141,7 +146,8 @@ namespace pers
     }
 
 
-    void in (auto& ... x)
+    template <class ... Ts>
+    void in (Ts& ... x)
     {
       /* Simple Input */
       (assert(*ins >> x), ...);
