@@ -9,11 +9,13 @@ using namespace pers;
 
 signed main ()
 {
-  srand(634633245524);
+  int i;
+  bio.in(i);
+  srand(i);
   PCMC canvas;
   PCMCTricks tricks (canvas);
 
-  size_t x = canvas.get_size().first/2, y = canvas.get_size().second/2;
+  SIZEu_Tuu X: = canvas.get_size().first/2, y = canvas.get_size().second/2;
  
   canvas.fill();
 
@@ -45,7 +47,7 @@ signed main ()
 
     canvas.make_default();
 
-    tricks.trace_line({canvas.get_size().first/2, canvas.get_size().second/2}, {x, y}, '!');
+    tricks.trace_line({canvas.get_size().first/2, canvas.get_size().second/2}, {x, y}, '!', true);
    
     canvas.char_at({x, y}) = 'a' + rand() % 26;
 

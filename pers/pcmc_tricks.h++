@@ -8,6 +8,7 @@
 **************************************************************/
 
 #include <cstddef>
+#include <cstdint>
 #include <cmath>
 #include <stdexcept>
 
@@ -93,8 +94,8 @@ namespace pers
     {
       /* Empty Box Plotting Function */
 
-      min_max(lt.first, rb.first);
-      min_max(lt.second, rb.second);
+      if (rb.first < lt.first) std::swap(lt.first, rb.first);
+      if (rb.second < lt.second) std::swap(lt.second, rb.second);
 
       size_t d;
 
@@ -125,8 +126,8 @@ namespace pers
     {
       /* Filled Box Plotting Function */
 
-      min_max(lt.first, rb.first);
-      min_max(lt.second, rb.second);
+      if (rb.first < lt.first) std::swap(lt.first, rb.first);
+      if (rb.second < lt.second) std::swap(lt.second, rb.second);
 
       if (lt.first > rb.first || lt.second > rb.second)
         if (force) return;
@@ -147,18 +148,42 @@ namespace pers
     {
       /* Single Line Plotting Function */
 
-      min_max(lt, rb);
+      // TODO: You know it must be Bresenham, even though you hate it
 
-      size_t f = rb.first - lt.first + 1;
-      double sof = ((double) rb.second - lt.second)/f;
-      bio.err(f, (double) rb.second - lt.second, sof);
+      long long x = lt.first,
+                y = lt.second;
 
-      size_t si = lt.second;
+      long long dx = abs((long long) rb.first - lt.first),
+                dy = abs((long long) rb.second - lt.second);
 
-      for (size_t fi = 1; fi <= f; fi ++) // TODO : CORRECT LOOK CHECKS FOR NEGATIVE SOF
-        for (; si <= sof*fi + lt.second; si += abs(sof)/sof)
-          pcmc->set_char({lt.first - 1 + fi, si}, c, force);
+      char sx = (lt.first < rb.first) ? 1 : -1,
+           sy = (lt.second < rb.second) ? 1 : -1;
 
+      long long err = dx - dy,
+                err2;
+
+      while (true)
+      {
+        pcmc->set_char({x, y}, c, force);
+        bio.errln(x, y);
+        
+        if (x == rb.first && y == rb.second) break;
+
+        err2 = 2 * err;        
+
+        if (err2 > -dy)
+        {
+          err -= dy;
+          x += sx;
+        }
+        if (err2 < dx)
+        {
+          err += dx;
+          y += sy;
+        }
+      }
+
+     
       return;
     }
   };
