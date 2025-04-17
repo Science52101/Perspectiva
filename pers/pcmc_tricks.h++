@@ -150,53 +150,40 @@ namespace pers
 
       // TODO: You know it must be Bresenham, even though you hate it
 
-      const size_t dx = abs(rb.first - lt.first),
-                   dy = abs(rb.second - lt.second);
+      long long x = lt.first,
+                y = lt.second;
+
+      long long dx = abs((long long) rb.first - lt.first),
+                dy = abs((long long) rb.second - lt.second);
+
+      char sx = (lt.first < rb.first) ? 1 : -1,
+           sy = (lt.second < rb.second) ? 1 : -1;
+
+      long long err = dx - dy,
+                err2;
+
+      while (true)
+      {
+        pcmc->set_char({x, y}, c, force);
+        bio.errln(x, y);
         
-      const int8_t sx = rb.first > lt.first ? 1 : -1,
-                   sy = rb.second > lt.second ? 1 : -1;
+        if (x == rb.first && y == rb.second) break;
 
-      bio.errln(dx, dy);
-      bio.errln((int)sx, (int)sy);
+        err2 = 2 * err;        
 
-
-      if (dx == 0)
-      {
-        if (rb.second < lt.second) std::swap(lt.second, rb.second);
-        for (size_t i = lt.second; i <= rb.second; i ++)
-          pcmc->set_char({lt.first, i}, c, force);
-        return;
+        if (err2 > -dy)
+        {
+          err -= dy;
+          x += sx;
+        }
+        if (err2 < dx)
+        {
+          err += dx;
+          y += sy;
+        }
       }
 
-      if (dy == 0)
-      {
-        if (rb.first < lt.first) std::swap(lt.first, rb.first);
-        for (size_t i = lt.first; i <= rb.first; i ++)
-          pcmc->set_char({i, lt.second}, c, force);
-        return;
-      }
-        
-
-      const double bsy = ((double) dy / (double) dx) * (double) sy;
-
-      size_t xi = lt.first;
-      size_t yi = lt.second;
-
-      double my = lt.second;
-
-      for (
-          ; sx > 0 ? xi <= rb.first : xi >= rb.first
-          ; xi += sx
-          )
-      {
-        my += bsy;
-        for (
-            ; sy > 0 ? yi <= my : yi >= my
-            ; yi += sy
-            )
-          pcmc->set_char({xi, yi}, c, force);
-      }
-
+     
       return;
     }
   };
