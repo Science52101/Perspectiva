@@ -13,22 +13,22 @@ This header contains the following public elements whose function will be explai
         - `const char* get_o_sep (void)`
         - `void set_o_l_sep (const char*)`
         - `const char* get_o_l_sep (void)`
-        - `void out (const auto& ...)`
-        - `void pout (const auto& ...)`
-        - `void outln (const auto& ...)`
+        - `template <class ... Ts> void out (const Ts& ...)`
+        - `template <class ... Ts> void pout (const Ts& ...)`
+        - `template <class ... Ts> void outln (const Ts& ...)`
         - `void flush_out (void)`
-        - `void err (const auto& ...)`
-        - `void perr (const auto& ...)`
-        - `void errln (const auto& ...)`
+        - `template <class ... Ts> void err (const Ts& ...)`
+        - `template <class ... Ts> void perr (const Ts& ...)`
+        - `template <class ... Ts> void errln (const Ts& ...)`
         - `void flush_err (void)`
-        - `void in (auto& ...)`
+        - `template <class ... Ts> void in (Ts& ...)`
     - `BIO bio`
 
 [^1]: This page does not explain [`namespace pers`](./namespacePers.md).
 
 ### `class BIO`
 
-The `class BIO` is automatically initialized by the `BIO ()` constructor with `(std::cin, std::cout, std::cerr, "\t")` as the default parameters.
+The `class BIO` is Tsmatically initialized by the `BIO ()` constructor with `(std::cin, std::cout, std::cerr, "\t")` as the default parameters.
 The 'default-initialized' instance of it is `BIO bio`, whose methods are used in most of the library's headers.
 
 #### `set_input_stream`, `set_output_stream` & `set_error_stream`
@@ -43,11 +43,11 @@ The `void set_o_l_sep (const char*)` method sets the line separator string for t
 
 #### `out`, `err`, `outln`, `errln`, `pout` & `perr`
 
-The `void out (const auto& ...)` and `void err (const auto& ...)` methods output each of their arguments ordely to the output and error streams, respectively, with the output separator following each.
+The `template <class ... Ts> void out (const Ts& ...)` and `template <class ... Ts> void err (const Ts& ...)` method templates output each of their arguments ordely to the output and error streams, respectively, with the output separator following each.
 
-The `void outln (const auto& ...)` and `void errln (const auto& ...)` methods have the same functionality, but they add the line separator at the end.
+The `template <class ... Ts> void outln (const Ts& ...)` and `template <class ... Ts> void errln (const Ts& ...)` method templates have the same functionality, but they add the line separator at the end.
 
-The `void pout (const auto& ...)` and `void perr (const auto& ...)` methods also output each of their arguments to their respective streams, but there are no separators or modifications to the given arguments that will be outputted.
+The `template <class ... Ts> void pout (const Ts& ...)` and `template <class ... Ts> void perr (const Ts& ...)` method templates also output each of their arguments to their respective streams, but there are no separators or modifications to the given arguments that will be outputted.
 
 #### `flush_out` & `flush_err`
 
@@ -55,5 +55,5 @@ The `void flush_out (void)` and `void flush_err (void)` methods simply execute t
 
 #### `in`
 
-The `void in (auto& ...)` method takes a reference of each of its arguments and ordely reads each of their values from the input stream.
+The `template <class ... Ts> void in (Ts& ...)` method template takes a reference of each of its arguments and ordely reads each of their values from the input stream.
 If the input fails, the method causes an assertion failure with `void assert (int)` (q. v. <cassert> header).
