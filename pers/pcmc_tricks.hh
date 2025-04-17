@@ -12,9 +12,9 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "vals.h++"
-#include "anim.h++"
-#include "pcmc.h++"
+#include "vals.hh"
+#include "anim.hh"
+#include "pcmc.hh"
 
 namespace pers
 {

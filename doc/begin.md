@@ -15,8 +15,8 @@ Please check the basic concepts:
 
 You can check each header here:
 
-- [`bio.hpp`](./bioHpp.md)
-- [`anim.hpp`](./animHpp.md)
-- [`vals.hpp`](./valsHpp.md)
-- [`pcmc.hpp`](./pcmcHpp.md)
-- [`pcmc_tricks.hpp`](./pcmcTricksHpp.md)
+- [`bio.hh`](./bioHh.md)
+- [`anim.hh`](./animHh.md)
+- [`vals.hh`](./valsHh.md)
+- [`pcmc.hh`](./pcmcHh.md)
+- [`pcmc_tricks.hh`](./pcmcTricksHh.md)

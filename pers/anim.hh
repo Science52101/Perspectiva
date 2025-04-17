@@ -11,8 +11,8 @@
 #include <chrono>
 #include <iostream>
 
-#include "bio.h++"
-#include "vals.h++"
+#include "bio.hh"
+#include "vals.hh"
 
 namespace pers
 {

@@ -97,7 +97,7 @@ namespace pers
     }
 
     template <class ... Ts>
-    void outln (const T& ... x)
+    void outln (const Ts& ... x)
     {
       /* Separated Standard Output Line */
       (assert(*outs << x << o_separator), ...);

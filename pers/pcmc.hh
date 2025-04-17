@@ -10,8 +10,8 @@
 #include <stdexcept>
 #include <utility>
 
-#include "vals.h++"
-#include "bio.h++"
+#include "vals.hh"
+#include "bio.hh"
 
 namespace pers
 {
