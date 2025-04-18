@@ -7,42 +7,249 @@
 * Basic animation functions *
 ****************************/
 
-#include <thread>
-#include <chrono>
-#include <iostream>
+#include <string>
 
 #include "bio.hh"
-#include "vals.hh"
+#include "time.hh"
 
 namespace pers
 {
   namespace anim
   {
 
-    void p_wait (size_t n = 1000, const bool& flush = true)
+    void write (const char* str, const size_t& t = 100)
     {
-      /* Wait N Process Operations */
+      /* Print a string to the terminal with a delay between every character */
 
-      n *= vals.get_p_mult();
-      for (size_t i = 0; i < n ; i ++)
-        if (flush) bio.flush_out();
-    }
-
-    void t_wait (size_t ms = 1000, const bool& flush = true)
-    {
-      /* Wait N Process Operations */
-
-      bio.flush_out();
-      std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    }
-
-    void write (const char* str, size_t time = 100)
-    {
       for (const char* c = str; *c != '\0'; c ++)
       {
         bio.out(*c);
-        t_wait(time);
+        time.t_wait(t);
       }
+    }
+
+    void write_title (const char* str, const size_t& t = 100)
+    {
+      /* Print a string to the terminal with a delay between every character and a title animation */
+
+      std::string s_aux;
+
+      bio.pout(" ' ");
+      time.t_wait(t);
+
+      bio.pout('\r', " * ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " ** ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " *-* ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " *--* ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      const char* c = str;
+
+      for (; *(c + 1) != '\0'; c ++)
+      {
+        s_aux.append(1u, *c);
+
+        bio.pout('\r', " *-", s_aux, "-* ");
+        bio.flush_out();
+        time.t_wait(t);
+      }
+
+      s_aux.append(1u, *c);
+
+      bio.pout('\r', " - ", s_aux, " - ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', "*  ", s_aux, "  *");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', "   ", s_aux, "   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', "*  ", s_aux, "  *");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', "   ", s_aux, "   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.outln();
+    }
+
+    void write_list_item (const char* str, const size_t& t = 100)
+    {
+      /* Print a string to the terminal with a delay between every character and a list item animation */
+
+      std::string s_aux;
+
+      bio.pout(" *   ");
+      time.t_wait(t);
+
+      bio.pout('\r', "     ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " '   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " |   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " -|   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " - |   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      const char* c = str;
+
+      for (; *(c + 1) != '\0'; c ++)
+      {
+        s_aux.append(1u, *c);
+
+        bio.pout('\r', " - ", s_aux, "|   ");
+        bio.flush_out();
+        time.t_wait(t);
+      }
+
+      s_aux.append(1u, *c);
+
+      bio.pout('\r', " - ", s_aux, " |   ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', "   ", s_aux, "  /  ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " - ", s_aux, "   - ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', "   ", s_aux, "    *");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', " - ", s_aux, "     ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.outln();
+    }
+
+    template <class T>
+    void write_list (const size_t& n, const T* items, const size_t& t = 100)
+    {
+      /* Print a string to the terminal with a delay between every character and a list item animation */
+
+      for (size_t i = 0; i < n; i ++)
+        write_list_item(items[i]);
+    }
+    
+    void wait_animation (bool dir = true, size_t mult = 5, size_t t = 500)
+    {
+      /* Print a string to the terminal with a delay between every character and a list item animation */
+
+      char chs[] = {'\\', '|', '/', '-'};
+      t >>= 2;
+
+      bio.pout('\r');
+
+      while (mult)
+      {
+        for (size_t i = dir ? 0 : 3; i < 4; i = dir ? i + 1 : i - 1)
+        {
+          bio.pout(chs[i], '\r');
+          time.t_wait(t);
+        }
+
+        mult --;
+      }
+    }
+
+    template <class T>
+    void request_input (const char* str, T& input,  const size_t& t = 100)
+    {
+      /* Print a string to the terminal with a delay between every character to request an input from it. */
+
+      std::string s_aux;
+
+      bio.pout("*");
+      time.t_wait(t);
+
+      bio.pout('\r', "_");
+      bio.flush_out();
+      time.t_wait(t);
+
+      const char* c = str;
+
+      for (; *(c + 1) != '\0'; c ++)
+      {
+        s_aux.append(1u, *c);
+
+        bio.pout('\r', s_aux, "_");
+        bio.flush_out();
+        time.t_wait(t);
+      }
+
+      s_aux.append(1u, *c);
+
+      bio.pout('\r', s_aux, "-");
+      bio.flush_out();
+      time.t_wait(t);
+
+      s_aux.append(1u, ' ');
+
+      bio.pout('\r', s_aux, ">");
+      bio.flush_out();
+      time.t_wait(t);
+
+      s_aux.append(1u, '(');
+
+      bio.pout('\r', s_aux, ">");
+      bio.flush_out();
+      time.t_wait(t);
+
+      c = typeid(input).name();
+      for (; *c != '\0'; c ++)
+      {
+        s_aux.append(1u, *c);
+
+        bio.pout('\r', s_aux, ">");
+        bio.flush_out();
+        time.t_wait(t);
+      }
+
+      bio.pout('\r', s_aux, ")>");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', s_aux, ") >");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.pout('\r', s_aux, ") > ");
+      bio.flush_out();
+      time.t_wait(t);
+
+      bio.in(input);
     }
 
   }
