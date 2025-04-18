@@ -13,7 +13,7 @@
 #include <stdexcept>
 
 #include "vals.hh"
-#include "anim.hh"
+#include "time.hh"
 #include "pcmc.hh"
 
 namespace pers
@@ -60,7 +60,7 @@ namespace pers
       return;
     }
 
-    void write_del (const ta::S2D& pos, const char* str, const size_t time = 100, const bool& wrap = false)
+    void write_del (const ta::S2D& pos, const char* str, const size_t& t = 100, const bool& wrap = false)
     {
       /* String/Text Plotting Function With Per Character Delay And Output */
 
@@ -83,7 +83,7 @@ namespace pers
         }
 
         pcmc->output();
-        anim::t_wait(time);
+        time.t_wait(t);
       }
 
       return;
